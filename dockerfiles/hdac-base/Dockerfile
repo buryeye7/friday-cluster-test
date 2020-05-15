@@ -17,6 +17,6 @@ RUN yum -y install net-tools
 WORKDIR $GOPATH/src
 RUN git clone https://github.com/hdac-io/friday
 WORKDIR $GOPATH/src/friday
-RUN git checkout v0.8.0
+RUN git checkout v0.9.0
 RUN npm install -g assemblyscript@0.9.1
 RUN make install

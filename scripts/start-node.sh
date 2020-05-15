@@ -23,10 +23,10 @@ do
 done
 
 # run execution engine grpc server
-$SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -t 8 $HOME/.casperlabs/.casper-node.sock&
+$SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z -t 8 $HOME/.casperlabs/.casper-node.sock&
 
 # init node
-nodef init testnode --chain-id testnet
+nodef init testnode tendermint --chain-id testnet
 
 # create a wallet key
 PW="12345678"
@@ -59,4 +59,4 @@ NODE_PUB_KEY=$(nodef tendermint show-validator)
 NODE_ID=$(nodef tendermint show-node-id)
 curl -X PUT $COUCHDB/wallet-address/$WALLET_ADDRESS -d "{\"type\":\"full-node\",\"node-pub-key\":\"$NODE_PUB_KEY\",\"node-id\":\"$NODE_ID\"}"
 
-nodef start > nodef.txt
+nodef start 2>/dev/null

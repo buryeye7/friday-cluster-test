@@ -1,7 +1,18 @@
 #!/bin/bash
 
+if [ $# == 0 ];then
+    echo "Please hdac node number"
+    exit 0
+fi
+
 COUCHDB="http://admin:admin@13.125.228.37:5984"
-NODE_NO=$(ls -l hdac-node-descs | grep ^- | wc -l)
+FILE_NO=$(ls -l hdac-node-descs | grep ^- | wc -l)
+NODE_NO=$1
+
+for i in $(seq 1 $FILE_NO)
+do
+    kubectl delete -f ./hdac-node-descs/hdac-node$i.yaml
+done
 
 #delete couchDB
 curl -X DELETE $COUCHDB/seed-info
@@ -13,13 +24,7 @@ curl -X PUT $COUCHDB/wallet-address
 
 kubectl delete -f prometheus/prometheus.yaml
 kubectl delete -f grafana/grafana.yaml
-
 kubectl delete -f ./hdac-seed-desc/hdac-seed.yaml
-
-for i in $(seq 1 $NODE_NO)
-do
-    kubectl delete -f ./hdac-node-descs/hdac-node$i.yaml
-done
 
 kubectl apply -f ./hdac-seed-desc/hdac-seed.yaml
 while true
