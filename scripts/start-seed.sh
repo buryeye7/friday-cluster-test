@@ -30,5 +30,5 @@ IP_ADDRESS=$(echo $IP_ADDRESS)
 curl -X PUT $COUCHDB/wallet-address/$WALLET_ADDRESS -d "{\"type\":\"seed-node\",\"node-pub-key\":\"$NODE_PUB_KEY\",\"node-id\":\"$NODE_ID\",\"ip-address\":\"${IP_ADDRESS}\"}"
 curl -X PUT $COUCHDB/seed-info/seed-info -d "{\"target\":\"${NODE_ID}@${IP_ADDRESS}:26656\"}"
 
-clif rest-server --laddr tcp://0.0.0.0:1317 > clif.txt 2>&1
+clif rest-server --laddr tcp://0.0.0.0:1317 > clif.txt 2>&1 &
 nodef start 2>/dev/null
