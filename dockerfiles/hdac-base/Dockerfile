@@ -7,6 +7,10 @@ ENV GOPATH=$HOME/go
 ENV GOROOT=/usr/local/go
 ENV PATH=$PATH:$HOME/.cargo/bin:$GOPATH/bin:$GOROOT/bin
 
+RUN cmake -version
+RUN gcc --version
+RUN rustc --version
+
 RUN yum -y update
 RUN yum -y upgrade
 RUN yum -y install expect

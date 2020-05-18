@@ -30,3 +30,19 @@ spec:
               containerPort: 26660
               protocol: TCP
       nodeName: {NODE_NAME}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hdac-node-app
+  name: ndac-node-app-svc
+spec:
+  ports:
+  - nodePort: 31317
+    port: 1317
+    protocol: TCP
+    targetPort: 1317
+  selector:
+    app: hdac-node-app
+  type: NodePort

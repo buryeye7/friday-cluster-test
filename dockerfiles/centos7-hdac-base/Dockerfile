@@ -1,8 +1,8 @@
-FROM centos:centos7
+FROM centos/devtoolset-7-toolchain-centos7
 
 USER root
 ENV HOME=/root
-ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/local/lib64:/usr/lib64
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:/usr/lib:/usr/local/lib64:/usr/lib64
 ENV GOPATH=$HOME/go
 ENV GOROOT=/usr/local/go
 ENV PATH=$PATH:$HOME/.cargo/bin:$GOPATH/bin:$GOROOT/bin
@@ -11,6 +11,8 @@ WORKDIR $HOME
 
 RUN echo $PATH
 RUN echo $LD_LIBRARY_PATH
+
+RUN gcc --version
 
 RUN yum -y upgrade
 RUN yum -y update
@@ -37,18 +39,7 @@ RUN rm -f $PROTOC_ZIP
 RUN curl -sL https://rpm.nodesource.com/setup_10.x |  bash -
 RUN yum -y install nodejs
 RUN yum -y install bzip2 
-RUN yum groups mark install "Development Tools"
-RUN yum groups mark convert "Development Tools"
-RUN yum -y groupinstall "Development Tools"
 
-RUN wget http://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-7.3.0/gcc-7.3.0.tar.gz
-RUN tar zxf gcc-7.3.0.tar.gz
-WORKDIR $HOME/gcc-7.3.0
-RUN ./contrib/download_prerequisites
-RUN ./configure --disable-multilib --enable-languages=c,c++
-RUN make -j 4
-RUN make install
-RUN gcc --version
 
 RUN mkdir -p $HOME/go/src
 RUN mkdir -p $HOME/go/pkg

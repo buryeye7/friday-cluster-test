@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COUCHDB="http://admin:admin@13.125.228.37:5984"
+COUCHDB="http://admin:admin@couchdb-app-svc:5984"
 SRC="$GOPATH/src/friday"
 rm -rf $HOME/.nodef/config
 rm -rf $HOME/.nodef/data
@@ -27,6 +27,11 @@ $SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z
 
 # init node
 nodef init testnode tendermint --chain-id testnet
+
+while true
+do
+    sleep 1
+done
 
 # create a wallet key
 PW="12345678"
@@ -59,4 +64,5 @@ NODE_PUB_KEY=$(nodef tendermint show-validator)
 NODE_ID=$(nodef tendermint show-node-id)
 curl -X PUT $COUCHDB/wallet-address/$WALLET_ADDRESS -d "{\"type\":\"full-node\",\"node-pub-key\":\"$NODE_PUB_KEY\",\"node-id\":\"$NODE_ID\"}"
 
+clif rest-server --laddr tcp://0.0.0.0:1317 > clif.txt 2>&1
 nodef start 2>/dev/null
