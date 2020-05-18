@@ -8,7 +8,7 @@
 proxy_app = "tcp://127.0.0.1:26658"
 
 # A custom human readable name for this node
-moniker = "testnode"
+moniker = "node1"
 
 # If this node is many blocks behind the tip of the chain, FastSync
 # allows them to catchup quickly by downloading blocks in parallel
@@ -243,7 +243,13 @@ version = "v0"
 ##### consensus configuration options #####
 [consensus]
 
+# Consensus version to use:
+#   1) "tendermint" (default) - the default consensus implementation
+#   2) "friday" - the friday consensus implementation 
+module = "tendermint"
+
 wal_file = "data/cs.wal/wal"
+
 
 timeout_propose = "3s"
 timeout_propose_delta = "500ms"
