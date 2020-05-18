@@ -28,11 +28,6 @@ $SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z
 # init node
 nodef init testnode tendermint --chain-id testnet
 
-while true
-do
-    sleep 1
-done
-
 # create a wallet key
 PW="12345678"
 
