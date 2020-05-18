@@ -1,0 +1,8 @@
+NAME                                               STATUS   ROLES    AGE   VERSION
+ip-172-20-33-77.ap-northeast-2.compute.internal    Ready    node     10h   v1.12.1
+ip-172-20-36-135.ap-northeast-2.compute.internal   Ready    node     10h   v1.12.1
+ip-172-20-44-172.ap-northeast-2.compute.internal   Ready    node     10h   v1.12.1
+ip-172-20-51-114.ap-northeast-2.compute.internal   Ready    master   10h   v1.12.1
+ip-172-20-51-190.ap-northeast-2.compute.internal   Ready    node     10h   v1.12.1
+ip-172-20-57-202.ap-northeast-2.compute.internal   Ready    node     10h   v1.12.1
+ip-172-20-62-175.ap-northeast-2.compute.internal   Ready    node     10h   v1.12.1
