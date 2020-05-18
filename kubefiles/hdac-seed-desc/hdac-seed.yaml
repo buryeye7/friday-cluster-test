@@ -15,6 +15,9 @@ spec:
       containers:
         - name: hdac-seed
           image: buryeye7/hdac-seed:latest
+          env:
+            - name: COUCHDB
+              value: couchdb-app-svc
           command: ["./scripts/start-seed.sh"]
           ports:
             - name: rpc
@@ -29,3 +32,4 @@ spec:
             - name: prometheus
               containerPort: 26660
               protocol: TCP
+      nodeName: ip-172-20-36-135.ap-northeast-2.compute.internal 

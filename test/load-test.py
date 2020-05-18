@@ -6,7 +6,7 @@ import time
 
 wallet = generate_wallet()
 print(wallet)
-
+"""
 tx = Transaction(
         host="http://140.238.22.160:1317",
         privkey="8d4977704e623ee799515ee19eb5dddbaeaa22be0eee2431f83a742d38b2e928",
@@ -19,3 +19,4 @@ for i in range(1,10000):
                 amount=i, gas_price=30000000, fee=1
         )
         print("count", i)
+"""

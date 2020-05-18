@@ -53,3 +53,12 @@ RUN gcc --version
 RUN mkdir -p $HOME/go/src
 RUN mkdir -p $HOME/go/pkg
 RUN mkdir -p $HOME/go/bin
+
+WORKDIR $HOME
+RUN wget http://www.cmake.org/files/v3.6/cmake-3.6.1.tar.gz
+RUN tar zvxf cmake-3.6.1.tar.gz
+WORKDIR $HOME/cmake-3.6.1
+RUN ./bootstrap
+RUN make
+RUN make install
+RUN cmake -version

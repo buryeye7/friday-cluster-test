@@ -1,5 +1,27 @@
 #!/bin/bash
 
+if [ $# == 0 ];then
+    echo "Please input (create|update|delete)"    
+    exit 0
+fi
+
+if [ $1 == "create" ];then 
+    if [ $# -lt 2 ];then
+        echo "Please input (create) (number of nodes)"    
+        exit 0
+    fi
+    rest=$(($2 % 3)) 
+    if [ $rest != 0 ];then 
+        echo "Please input must be multiples of 3"  
+        exit 0
+    fi
+
+    if [ $2 -lt 6 ];then
+        echo "Please input must be greater than or equal to 6"
+        exit 0
+    fi
+fi
+
 export KOPS_STATE_STORE="s3://friday-cluster-test"
 export NAME="friday.k8s.local"    # DNS가 설정되어 있지 않은 경우
 export INSTANCE_TYPE="m5.xlarge"
@@ -7,11 +29,6 @@ export IMAGE="ami-01183f93ce9c0e25d"
 export REGION="ap-northeast-2"
 export ZONE="ap-northeast-2a"
 export PUBKEY="./keys/friday-cluster-test.pub"
-
-if [ $# -eq 0 ];then
-	echo "input create, update or delete"
-	exit 0 
-fi
 
 if [ $1 == "create" ];then
 	kops create cluster --kubernetes-version=1.12.1 \
@@ -26,7 +43,7 @@ if [ $1 == "create" ];then
 	    --node-size $INSTANCE_TYPE \
 	    --master-volume-size 200 \
 	    --node-volume-size 200 \
-	    --node-count 4 \
+	    --node-count $2 \
 	    --cloud aws \
 	    --name $NAME \
 	    --yes

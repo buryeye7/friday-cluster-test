@@ -1,1 +1,0 @@
-scrape_configs:\n\t- job_name: {JOB_NAME}\n\tscrape_interval: 5s\n\tstatic_configs:\n\t- targets: {TARGET_NAME}
