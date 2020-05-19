@@ -12,8 +12,8 @@ WORKDIR $GOPATH/src
 RUN git clone https://github.com/buryeye7/friday-cluster-test
 WORKDIR $GOPATH/src/friday-cluster-test
 
-RUN rm -rf $HOME/.nodef
-RUN rm -rf $HOME/.clif
+#RUN rm -rf $HOME/.nodef
+#RUN rm -rf $HOME/.clif
 
 EXPOSE 26656/tcp
 EXPOSE 26657/tcp
