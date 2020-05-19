@@ -50,7 +50,7 @@ clif config trust-node true
 cp -f $GOPATH/src/friday-cluster-test/config/node-config/nodef-config/config/genesis.json $HOME/.nodef/config
 cp -f $GOPATH/src/friday-cluster-test/config/node-config/nodef-config/config/manifest.toml $HOME/.nodef/config
 #SEED=$(cat $HOME/.nodef/config/genesis.json | jq .app_state.genutil.gentxs[0].value.memo)
-SEED=$(curl http://admin:admin@13.125.228.37:5984/seed-info/seed-info | jq .target)
+SEED=$(curl http://admin:admin@COUCHDB/seed-info/seed-info | jq .target)
 sed -i "s/seeds = \"\"/seeds = $SEED/g" $HOME/.nodef/config/config.toml
 sed -i "s/prometheus = false/prometheus = true/g" $HOME/.nodef/config/config.toml
 
