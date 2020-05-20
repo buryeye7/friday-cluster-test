@@ -67,7 +67,7 @@ for i in $(seq 0 $ADDRESS_CNT)
 do
     j=$((i+1))
     mod=$((j%3))
-    if [ $mod -lt 7 ];then
+    if [ $j -lt 7 ];then
         continue
     fi
     echo ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} > transfer-to$j.log 

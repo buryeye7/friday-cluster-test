@@ -32,4 +32,4 @@ spec:
             - name: prometheus
               containerPort: 26660
               protocol: TCP
-      nodeName: ip-172-20-36-135.ap-northeast-2.compute.internal 
+      nodeName: ip-172-20-36-96.ap-northeast-2.compute.internal 

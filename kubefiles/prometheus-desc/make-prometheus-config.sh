@@ -3,7 +3,7 @@
 SP2='  '
 SP4='    '
 SP6='      '
-INTERVAL="5s"
+INTERVAL="2s"
 PREFIX="global:\n${SP2}scrape_interval: $INTERVAL\n\nscrape_configs:"
 TEMPLATE="${SP2}- job_name: {JOB}\n${SP4}scrape_interval: $INTERVAL\n${SP4}static_configs:\n${SP6}- targets: {TARGET}"
 FILE_NO=$(ls -l ../hdac-node-descs | grep ^- | wc -l)

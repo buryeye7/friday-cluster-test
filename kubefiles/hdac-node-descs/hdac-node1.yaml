@@ -2,15 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hdac-node1
+  labels:
+    app: hdac-node1
 spec:
   selector:
     matchLabels:
-      run: hdac-node1
+      app: hdac-node1
   replicas: 1
   template:
     metadata:
       labels:
-        run: hdac-node1
+        app: hdac-node1
     spec:
       containers:
         - name: hdac-node1
@@ -29,4 +31,17 @@ spec:
             - name: prometheus
               containerPort: 26660
               protocol: TCP
-      nodeName: ip-172-20-44-172.ap-northeast-2.compute.internal
+      nodeName: ip-172-20-37-112.ap-northeast-2.compute.internal
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdac-node1
+spec:
+  type: LoadBalancer
+  selector:
+    app: hdac-node1
+  ports:
+    - protocol: TCP
+      port: 1317
+      targetPort: 1317
