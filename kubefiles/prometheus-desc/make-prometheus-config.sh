@@ -3,8 +3,9 @@
 SP2='  '
 SP4='    '
 SP6='      '
-PREFIX="global:\n${SP2}scrape_interval: 1s\n\nscrape_configs:"
-TEMPLATE="${SP2}- job_name: {JOB}\n${SP4}scrape_interval: 1s\n${SP4}static_configs:\n${SP6}- targets: {TARGET}"
+INTERVAL="5s"
+PREFIX="global:\n${SP2}scrape_interval: $INTERVAL\n\nscrape_configs:"
+TEMPLATE="${SP2}- job_name: {JOB}\n${SP4}scrape_interval: $INTERVAL\n${SP4}static_configs:\n${SP6}- targets: {TARGET}"
 FILE_NO=$(ls -l ../hdac-node-descs | grep ^- | wc -l)
 
 echo -e $PREFIX > prometheus-kubernetes-config.yaml

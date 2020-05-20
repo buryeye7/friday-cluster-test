@@ -47,6 +47,8 @@ do
     sleep 10
 done
 
+./make-validator.sh
+
 NODE_ADDRESSES=()
 kubectl get svc > /tmp/svcs.txt
 i=0
@@ -60,19 +62,14 @@ do
 done < /tmp/svcs.txt
 ADDRESS_CNT=$((i - 1))
 
-for j in $(seq 0 $ADDRESS_CNT)
+rm -rf *.log
+for i in $(seq 0 $ADDRESS_CNT)
 do
-    ./transfer-to.py ${NODE_ADDRESSES[$j]} ${PRIV_KEYS[$j]} &
-done
-
-#Make validators
-kubectl get pods > /tmp/pods.txt
-while read line
-do
-    name=$(echo $line | awk -F' ' '{print $1}')        
-    if [[ $name == *"hdac-node"* ]];then
-        echo $name
+    j=$((i+1))
+    mod=$((j%3))
+    if [ $mod -lt 7 ];then
+        continue
     fi
-done < /tmp/pods.txt    
-
-./make-validator.sh
+    echo ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} > transfer-to$j.log 
+    ./transfer-to.py ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} >> transfer-to$j.log &
+done

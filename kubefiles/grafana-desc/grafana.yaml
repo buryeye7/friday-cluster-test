@@ -27,7 +27,7 @@ spec:
           value: Admin
         - name: GF_SERVER_ROOT_URL
           value: /
-      nodeName: ip-172-20-57-202.ap-northeast-2.compute.internal
+      nodeName: ip-172-20-55-255.ap-northeast-2.compute.internal
 ---
 apiVersion: v1
 kind: Service
