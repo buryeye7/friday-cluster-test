@@ -8,7 +8,7 @@ wallet = generate_wallet()
 dataList=[]
 dataList.append(":".join(["\"private_key\"","\"" + wallet["private_key"] + "\""]))
 dataList.append(":".join(["\"public_key\"","\"" + wallet["public_key"] + "\""]))
-dataList.append(":".join(["\"address_key\"","\"" + wallet["address"] + "\""]))
+dataList.append(":".join(["\"address\"","\"" + wallet["address"] + "\""]))
 dataList.append(":".join(["\"mnemonic\"","\"" + wallet["mnemonic"] + "\""]))
 data = "{" + ",".join(dataList) + "}"
 print(data)

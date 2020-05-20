@@ -2,15 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hdac-node{NO}
+  labels:
+    app: hdac-node{NO}
 spec:
   selector:
     matchLabels:
-      run: hdac-node{NO}
+      app: hdac-node{NO}
   replicas: 1
   template:
     metadata:
       labels:
-        run: hdac-node{NO}
+        app: hdac-node{NO}
     spec:
       containers:
         - name: hdac-node{NO}
@@ -34,15 +36,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: hdac-node-app
-  name: ndac-node-app-svc
+  name: hdac-node{NO}
 spec:
-  ports:
-  - nodePort: 31317
-    port: 1317
-    protocol: TCP
-    targetPort: 1317
+  type: LoadBalancer
   selector:
-    app: hdac-node-app
-  type: NodePort
+    app: hdac-node{NO}
+  ports:
+    - protocol: TCP
+      port: 1317
+      targetPort: 1317
