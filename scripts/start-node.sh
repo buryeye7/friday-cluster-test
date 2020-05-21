@@ -50,8 +50,14 @@ clif config output json
 clif config indent true
 clif config trust-node true
 
-cp -f $GOPATH/src/friday-cluster-test/config/node-config/nodef-config/config/genesis.json $HOME/.nodef/config
-cp -f $GOPATH/src/friday-cluster-test/config/node-config/nodef-config/config/manifest.toml $HOME/.nodef/config
+if [ $TARGET == "friday" ];then
+    cp -f $GOPATH/src/friday-cluster-test/config/ulb-node-config/nodef-config/config/genesis.json $HOME/.nodef/config
+    cp -f $GOPATH/src/friday-cluster-test/config/ulb-node-config/nodef-config/config/manifest.toml $HOME/.nodef/config
+else
+    cp -f $GOPATH/src/friday-cluster-test/config/node-config/nodef-config/config/genesis.json $HOME/.nodef/config
+    cp -f $GOPATH/src/friday-cluster-test/config/node-config/nodef-config/config/manifest.toml $HOME/.nodef/config
+fi
+
 #SEED=$(cat $HOME/.nodef/config/genesis.json | jq .app_state.genutil.gentxs[0].value.memo)
 SEED=$(curl $COUCHDB/seed-info/seed-info | jq .target)
 sed -i "s/seeds = \"\"/seeds = $SEED/g" $HOME/.nodef/config/config.toml
