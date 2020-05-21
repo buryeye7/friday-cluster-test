@@ -18,6 +18,8 @@ spec:
           env:
             - name: COUCHDB
               value: couchdb-app-svc
+            - name: TARGET 
+              value: {TARGET}
           command: ["./scripts/start-seed.sh"]
           ports:
             - name: rpc

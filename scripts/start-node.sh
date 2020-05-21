@@ -25,8 +25,11 @@ done
 # run execution engine grpc server
 $SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z -t 8 $HOME/.casperlabs/.casper-node.sock&
 
-# init node
-nodef init testnode tendermint --chain-id testnet
+if [ $TARGET == "friday" ];then
+    nodef init testnode friday --chain-id testnet
+else
+    nodef init testnode tendermint --chain-id testnet
+fi
 
 # create a wallet key
 PW="12345678"

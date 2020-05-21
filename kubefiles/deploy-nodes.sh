@@ -1,5 +1,22 @@
 #!/bin/bash
 
+if [ $# == 0 ];then
+    echo "Please input param, friday or tendermint"
+    exit 0
+fi
+
+if [ $1 != "friday" -a $1 != "tendermint" ];then
+    echo "Please input param, friday or tendermint"
+    exit 0
+fi
+
+TARGET=""
+if [ $1 == "friday" ];then 
+    TARGET="friday"
+else
+    TARGET="tendermint"
+fi
+    
 FILE_NO=$(ls -l hdac-node-descs | grep ^- | wc -l)
 TOTAL_NO=$(kubectl get nodes | wc -l)
 #Grafana, Prometheus, CouchDB, HDAC SEED, Master Node and Title
@@ -106,14 +123,14 @@ do
 done 
 
 INDEX=$((INDEX + 1))
-cat ./hdac-seed-desc/hdac-seed-template.yaml | sed "s/{NODE_NAME}/${NAME_ARRAY[$INDEX]}/g" > ./hdac-seed-desc/hdac-seed.yaml
+cat ./hdac-seed-desc/hdac-seed-template.yaml | sed "s/{NODE_NAME}/${NAME_ARRAY[$INDEX]}/g" | sed "s/{TARGET}/${TARGET}/g" > ./hdac-seed-desc/hdac-seed.yaml
 kubectl apply -f ./hdac-seed-desc/hdac-seed.yaml
 waiting_single "hdac-seed" 
 
 for i in $(seq 1 $HDAC_NODE_NO)
 do
     INDEX=$((INDEX + 1))
-    cat ./hdac-node-descs/hdac-node-template.yaml | sed "s/{NODE_NAME}/${NAME_ARRAY[$INDEX]}/g" | sed "s/{NO}/$i/g" > ./hdac-node-descs/hdac-node$i.yaml
+    cat ./hdac-node-descs/hdac-node-template.yaml | sed "s/{NODE_NAME}/${NAME_ARRAY[$INDEX]}/g" | sed "s/{NO}/$i/g" | sed "s/{TARGET}/${TARGET}/g" > ./hdac-node-descs/hdac-node$i.yaml
     kubectl apply -f ./hdac-node-descs/hdac-node$i.yaml
 done
 

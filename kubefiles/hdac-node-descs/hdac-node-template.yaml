@@ -18,6 +18,9 @@ spec:
         - name: hdac-node{NO}
           image: buryeye7/hdac-node:latest
           command: ["./scripts/start-node.sh"]
+          env:
+            - name: TARGET
+              value: {TARGET} 
           ports:
             - name: rpc
               containerPort: 26657

@@ -3,6 +3,14 @@
 COUCHDB="http://admin:admin@couchdb-app-svc:5984"
 SRC="$GOPATH/src/friday"
 
+if [ $TARGET == "friday" ];then
+    cp -rf $GOPATH/src/friday-cluster-test/config/ulb-node-config/nodef-config/* $HOME/.nodef
+    cp -rf $GOPATH/src/friday-cluster-test/config/ulb-node-config/clif-config/* $HOME/.clif
+else
+    cp -rf $GOPATH/src/friday-cluster-test/config/node-config/nodef-config/* $HOME/.nodef
+    cp -rf $GOPATH/src/friday-cluster-test/config/node-config/clif-config/* $HOME/.clif
+fi
+
 ps -ef | grep grpc | while read line
 do
     if [[ $line == *"CasperLabs"* ]];then
