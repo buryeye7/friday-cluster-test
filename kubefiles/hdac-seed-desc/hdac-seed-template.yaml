@@ -20,6 +20,8 @@ spec:
               value: couchdb-app-svc
             - name: TARGET 
               value: {TARGET}
+            - name: WALLET_CNT
+              value: {WALLET_CNT}
           command: ["./scripts/start-seed.sh"]
           ports:
             - name: rpc
