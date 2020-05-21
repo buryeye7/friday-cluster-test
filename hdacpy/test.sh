@@ -66,7 +66,8 @@ rm -rf *.log
 for i in $(seq 0 $ADDRESS_CNT)
 do
     j=$((i+1))
-    mod=$((j%3))
+    #mod=$((j%3))
+    echo ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} >> test-info-after-mempool-full.txt
     if [ $j -lt 7 ];then
         continue
     fi

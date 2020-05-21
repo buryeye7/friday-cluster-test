@@ -19,9 +19,12 @@ tx = Transaction(
     )
 
 for i in range(1,10000):
-        amount = i%100
-        tx.transfer(
-                recipient_address="friday19ktfw6flujxvxfnpgvldn4wj5mdx0565g6n4cj7zgshcfaxsyudsd9248t",
-                amount=amount, gas_price=30000000, fee=1
-        )
         print("count", i)
+        amount = i%100
+        try:
+            tx.transfer(
+                    recipient_address="friday19ktfw6flujxvxfnpgvldn4wj5mdx0565g6n4cj7zgshcfaxsyudsd9248t",
+                    amount=amount, gas_price=30000000, fee=1
+            )
+        except:
+            print("exception happened", sys.exc_info()[0])
