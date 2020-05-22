@@ -1,5 +1,6 @@
 #!/bin/bash
 
+INTERVAL=$1
 PW="12345678"
 AMOUNT=1000000000000000
 FARE=1
@@ -25,7 +26,7 @@ do
     expect eof
     "
     echo ${PRIV_KEYS[$i]}
-    sleep 10
+    sleep $INTERVAL
 done
 
 WALLET_ALIAS=()
@@ -44,36 +45,41 @@ do
         send \"$PW\\r\"
     expect eof
     "
-    sleep 10
+    sleep $INTERVAL
 done
 
 COUNT=$(curl $COUCHDB/wallet-address/_all_docs 2>/dev/null | jq '.rows | length')
 COUNT=$(($COUNT - 1))
 for i in $(seq 0 $COUNT)
 do
+    j=$((i + 1))
+    mod=$((j % 3))
+    if [ $mod -ne 0 ];then
+        continue
+    fi
     address=$(curl $COUCHDB/wallet-address/_all_docs 2>/dev/null | jq .rows[$i].key | sed "s/\"//g")
     node_pubkey=$(curl $COUCHDB/wallet-address/$address 2>/dev/null | jq .node_pub_key | sed "s/\"//g")
     wallet_alias=${WALLET_ALIAS[$i]}
     expect -c "
     set timeout 3
-    spawn kubectl exec $HDAC_SEED -it --container hdac_seed -- clif hdac create-validator 1 --from $wallet_alias --pubkey $node_pubkey --moniker solution$i --chain-id testnet
+    spawn kubectl exec $HDAC_SEED -it --container hdac-seed -- clif hdac create-validator 1 --from $wallet_alias --pubkey $node_pubkey --moniker solution$i --chain-id testnet
     expect "N]:"
         send \"y\\r\"
     expect "\'$wallet_alias\':"
         send \"$PW\\r\"
     expect eof
     "
-    sleep 10
+    sleep $INTERVAL
     expect -c "
     set timeout 3
-    spawn kubectl exec $HDAC_SEED -it --container hdac_seed -- clif hdac bond --from $wallet_alias 1 0.01 --chain-id testnet
+    spawn kubectl exec $HDAC_SEED -it --container hdac-seed -- clif hdac bond --from $wallet_alias 1 0.01 --chain-id testnet
     expect "N]:"
         send \"y\\r\"
     expect "\'$wallet_alias\':"
         send \"$PW\\r\"
     expect eof
     "
-    sleep 10
+    sleep $INTERVAL
 done
 
 NODE_ADDRESSES=()
@@ -95,8 +101,8 @@ for i in $(seq 0 $ADDRESS_CNT)
 do
     j=$((i+1))
     #mod=$((j%3))
-    echo ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} >> test-info-after-mempool-full.txt
     if [ $j -lt 7 ];then
+        echo ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} >> test-info-after-mempool-full.txt
         continue
     fi
     echo ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} > transfer-to$j.log 

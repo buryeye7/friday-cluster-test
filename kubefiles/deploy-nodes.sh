@@ -18,10 +18,12 @@ else
 fi
     
 FILE_NO=$(ls -l hdac-node-descs | grep ^- | wc -l)
+FILE_NO=$(($FILE_NO -1))
 TOTAL_NO=$(kubectl get nodes | wc -l)
 #Grafana, Prometheus, CouchDB, HDAC SEED, Master Node and Title
 HDAC_NODE_NO=$(($TOTAL_NO - 6))
 READY_NO=$((TOTAL_NO - 3))
+HDAC_NODE_NO_WITH_SEED=$(($TOTAL_NO - 5))
 
 #waiting functions
 waiting_single() {
@@ -115,6 +117,7 @@ done
 curl -X PUT $COUCHDB/seed-info
 curl -X PUT $COUCHDB/wallet-address
 curl -X PUT $COUCHDB/input-address
+curl -X PUT $COUCHDB/seed-wallet-info
 
 for i in {1..20}
 do
@@ -123,7 +126,7 @@ do
 done 
 
 INDEX=$((INDEX + 1))
-cat ./hdac-seed-desc/hdac-seed-template.yaml | sed "s/{NODE_NAME}/${NAME_ARRAY[$INDEX]}/g" | sed "s/{TARGET}/${TARGET}/g" > ./hdac-seed-desc/hdac-seed.yaml
+cat ./hdac-seed-desc/hdac-seed-template.yaml | sed "s/{NODE_NAME}/${NAME_ARRAY[$INDEX]}/g" | sed "s/{TARGET}/${TARGET}/g" | sed "s/{WALLET_CNT}/\"$HDAC_NODE_NO_WITH_SEED\"/g" > ./hdac-seed-desc/hdac-seed.yaml
 kubectl apply -f ./hdac-seed-desc/hdac-seed.yaml
 waiting_single "hdac-seed" 
 
@@ -175,4 +178,8 @@ do
 done
     
 cd ../hdacpy
-./test.sh
+if [ $1 == "friday" ];then
+    ./test.sh 1
+else
+    ./test.sh 10
+fi

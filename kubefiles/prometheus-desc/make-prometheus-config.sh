@@ -13,10 +13,14 @@ echo -e $PREFIX > prometheus-kubernetes-config.yaml
 i=1
 kubectl get pods -o wide | while read line
 do
-    if [[ "$line" == *"IP"* ]] || [[ "$line" == *"hdac-seed"* ]] || [[ $line == *"couchdb"* ]];then
+    if [[ "$line" == *"IP"* ]] || [[ $line == *"couchdb"* ]];then
         continue
     fi
     ip=$(echo $line | awk -F' ' '{print $6}')
-    echo -e "$TEMPLATE" | sed -e "s/{JOB}/\'hdac-node$i\'/g" | sed -e "s/{TARGET}/[\'$ip:26660\']/g" >> prometheus-kubernetes-config.yaml
-    i=$((i + 1))
+    if [[ "$line" == *"hdac-seed"* ]];then
+        echo -e "$TEMPLATE" | sed -e "s/{JOB}/\'hdac-seed\'/g" | sed -e "s/{TARGET}/[\'$ip:26660\']/g" >> prometheus-kubernetes-config.yaml
+    else
+        echo -e "$TEMPLATE" | sed -e "s/{JOB}/\'hdac-node$i\'/g" | sed -e "s/{TARGET}/[\'$ip:26660\']/g" >> prometheus-kubernetes-config.yaml
+        i=$((i + 1))
+    fi
 done
