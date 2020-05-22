@@ -63,7 +63,7 @@ SEED=$(curl $COUCHDB/seed-info/seed-info | jq .target)
 sed -i "s/seeds = \"\"/seeds = $SEED/g" $HOME/.nodef/config/config.toml
 sed -i "s/prometheus = false/prometheus = true/g" $HOME/.nodef/config/config.toml
 
-WALLET_ADDRESS=$(clif keys show node1 -a)
+WALLET_ADDRESS=$(clif keys show node -a)
 NODE_PUB_KEY=$(nodef tendermint show-validator)
 NODE_ID=$(nodef tendermint show-node-id)
 
