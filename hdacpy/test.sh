@@ -32,10 +32,10 @@ do
     address=$(curl $COUCHDB/input-address/$key 2>/dev/null | jq .address | sed "s/\"//g")
     expect -c "
     set timeout 3
-    spawn kubectl exec $HDAC_SEED -it --container hdac-seed -- clif hdac transfer-to $address $AMOUNT $FARE --from node1
+    spawn kubectl exec $HDAC_SEED -it --container hdac-seed -- clif hdac transfer-to $address $AMOUNT $FARE --from node
     expect "N]:"
         send \"y\\r\"
-    expect "\'node1\':"
+    expect "\'node\':"
         send \"$PW\\r\"
     expect eof
     "
@@ -50,10 +50,10 @@ do
     wallet_address=$(curl $COUCHDB/seed-wallet-info/_all_docs 2>/dev/null | jq .rows[$i].key | sed "s/\"//g")
     expect -c "
     set timeout 3
-    spawn kubectl exec $HDAC_SEED -it --container hdac-seed -- clif hdac transfer-to $wallet_address $AMOUNT $FARE --from node1
+    spawn kubectl exec $HDAC_SEED -it --container hdac-seed -- clif hdac transfer-to $wallet_address $AMOUNT $FARE --from node
     expect "N]:"
         send \"y\\r\"
-    expect "\'node1\':"
+    expect "\'node\':"
         send \"$PW\\r\"
     expect eof
     "

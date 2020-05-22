@@ -36,7 +36,7 @@ IP_ADDRESS=$(echo $IP_ADDRESS)
 
 curl -X PUT $COUCHDB/seed-info/seed-info -d "{\"target\":\"${NODE_ID}@${IP_ADDRESS}:26656\"}"
 
-for i in $(seq 2 $WALLET_CNT)
+for i in $(seq 1 $WALLET_CNT)
 do
     wallet_address=$(clif keys show node$i -a)
     curl -X PUT $COUCHDB/seed-wallet-info/$wallet_address -d "{\"wallet_alias\":\"node$i\"}"

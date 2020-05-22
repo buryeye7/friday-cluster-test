@@ -36,7 +36,7 @@ PW="12345678"
 
 expect -c "
 set timeout 3
-spawn clif keys add node1
+spawn clif keys add node
 expect "disk:"
     send \"$PW\\r\"
 expect "passphrase:"
