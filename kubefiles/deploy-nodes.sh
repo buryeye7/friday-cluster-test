@@ -133,14 +133,12 @@ waiting_single "hdac-seed"
 for i in $(seq 1 $HDAC_NODE_NO)
 do
     INDEX=$((INDEX + 1))
-    cat ./hdac-node-descs/hdac-node-template.yaml | sed "s/{NODE_NAME}/${NAME_ARRAY[$INDEX]}/g" | sed "s/{NO}/$i/g" | sed "s/{TARGET}/${TARGET}/g" > ./hdac-node-descs/hdac-node$i.yaml
+    cat ./hdac-node-descs/hdac-node-template.yaml | sed "s/{NODE_NAME}/${NAME_ARRAY[$INDEX]}/g" | sed "s/{NO}/$i/g" | sed "s/{TARGET}/${TARGET}/g" | sed "s/{WALLET_ALIAS}/node$i/g" > ./hdac-node-descs/hdac-node$i.yaml
     kubectl apply -f ./hdac-node-descs/hdac-node$i.yaml
 done
 
 waiting_multi "hdac-node" $HDAC_NODE_NO
 waiting_ready
-
-
 
 #make prometheus config
 cd prometheus-desc
@@ -179,7 +177,7 @@ done
     
 cd ../hdacpy
 if [ $1 == "friday" ];then
-    ./test.sh 1
+    ./test.sh 5
 else
     ./test.sh 10
 fi

@@ -1,5 +1,19 @@
 #!/bin/bash
 
+check_sync() {
+    hdac_seed=$(kubectl get pods | grep hdac-seed | awk -F' ' '{print $1}')
+    hdac_node3=$(kubectl get pods | grep hdac-node3 | awk -F' ' '{print $1}')
+    while true
+    do
+        seed_height=$(kubectl exec $hdac_seed --container hdac-seed -- clif query block | jq .block_meta.header.height | sed "s/\"//g")
+        node3_height=$(kubectl exec $hdac_node3 --container hdac-node3   -- clif query block | jq .block_meta.header.height | sed "s/\"//g")
+        echo "check_sync: $seed_height $node3_height"
+        if [ $seed_height == $node3_height ];then
+            break
+        fi  
+    done
+}
+
 INTERVAL=$1
 PW="12345678"
 AMOUNT=1000000000000000
@@ -29,13 +43,11 @@ do
     sleep $INTERVAL
 done
 
-WALLET_ALIAS=()
 COUNT=$(curl $COUCHDB/seed-wallet-info/_all_docs 2>/dev/null | jq '.rows | length')
 COUNT=$((COUNT - 1))
 for i in $(seq 0 $COUNT)
 do
     wallet_address=$(curl $COUCHDB/seed-wallet-info/_all_docs 2>/dev/null | jq .rows[$i].key | sed "s/\"//g")
-    WALLET_ALIAS[$i]=$(curl $COUCHDB/seed-wallet-info/$wallet_address 2>/dev/null | jq .wallet_alias | sed "s/\"//g")
     expect -c "
     set timeout 3
     spawn kubectl exec $HDAC_SEED -it --container hdac-seed -- clif hdac transfer-to $wallet_address $AMOUNT $FARE --from node1
@@ -52,14 +64,18 @@ COUNT=$(curl $COUCHDB/wallet-address/_all_docs 2>/dev/null | jq '.rows | length'
 COUNT=$(($COUNT - 1))
 for i in $(seq 0 $COUNT)
 do
-    j=$((i + 1))
-    mod=$((j % 3))
+    address=$(curl $COUCHDB/wallet-address/_all_docs 2>/dev/null | jq .rows[$i].key | sed "s/\"//g")
+    node_pubkey=$(curl $COUCHDB/wallet-address/$address 2>/dev/null | jq .node_pub_key | sed "s/\"//g")
+    wallet_alias=$(curl $COUCHDB/wallet-address/$address 2>/dev/null | jq .wallet_alias | sed "s/\"//g")
+    node_number=$(echo $wallet_alias | sed "/s/node//g")
+    mod=$(($node_number % 3))
     if [ $mod -ne 0 ];then
         continue
     fi
-    address=$(curl $COUCHDB/wallet-address/_all_docs 2>/dev/null | jq .rows[$i].key | sed "s/\"//g")
-    node_pubkey=$(curl $COUCHDB/wallet-address/$address 2>/dev/null | jq .node_pub_key | sed "s/\"//g")
-    wallet_alias=${WALLET_ALIAS[$i]}
+    share=$(($node_number / 3))
+    if [ $share -gt 1 ];then
+        check_sync
+    fi
     expect -c "
     set timeout 3
     spawn kubectl exec $HDAC_SEED -it --container hdac-seed -- clif hdac create-validator 1 --from $wallet_alias --pubkey $node_pubkey --moniker solution$i --chain-id testnet

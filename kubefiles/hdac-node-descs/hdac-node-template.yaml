@@ -21,6 +21,8 @@ spec:
           env:
             - name: TARGET
               value: {TARGET} 
+            - name: WALLET_ALIAS
+              value: {WALLET_ALIAS}
           ports:
             - name: rpc
               containerPort: 26657
