@@ -63,6 +63,27 @@ waiting_ready() {
     done
 }
 
+wait_lb_ready() {
+    while true
+    do
+        kubectl get svc  > /tmp/svcs.txt
+        pending_flag=0
+        while read line
+        do
+            if [[ $line == *"hdac-node"*"pending"* ]];then
+                sleep 1
+                pending_flag=1
+                break
+            fi
+        done < /tmp/svcs.txt
+        if [ $pending_flag -eq 0 ];then
+            break
+        fi
+        echo "pending"
+    done
+}
+
+
 #create namespace
 kubectl create -f setup/fct-namespace.yaml
 kubectl config set-context --current --namespace=fct
@@ -156,24 +177,6 @@ kubectl apply -f prometheus-desc/prometheus.yaml
 NDEX=$((INDEX + 1))
 cat ./grafana-desc/grafana-template.yaml | sed "s/{NODE_NAME}/${NAME_ARRAY[$INDEX]}/g" > ./grafana-desc/grafana.yaml
 kubectl apply -f grafana-desc/grafana.yaml
-
-while true
-do
-    kubectl get svc  > /tmp/svcs.txt
-    pending_flag=0
-    while read line
-    do
-        if [[ $line == *"hdac-node"*"pending"* ]];then
-            sleep 1
-            pending_flag=1
-            break
-        fi
-    done < /tmp/svcs.txt
-    if [ $pending_flag -eq 0 ];then
-        break
-    fi
-    echo "pending"
-done
     
 cd ../hdacpy
 if [ $1 == "friday" ];then
