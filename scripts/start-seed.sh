@@ -11,6 +11,8 @@ else
     cp -rf $GOPATH/src/friday-cluster-test/config/node-config/clif-config/* $HOME/.clif
 fi
 
+sed -i "s/prof_laddr = \"localhost:6060\"/prof_laddr = \"0.0.0.0:6060\"/g" $HOME/.nodef/config/config.toml
+
 ps -ef | grep grpc | while read line
 do
     if [[ $line == *"CasperLabs"* ]];then
