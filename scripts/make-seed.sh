@@ -27,10 +27,10 @@ do
 done
 
 # run execution engine grpc server
-$SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -t 8 $HOME/.casperlabs/.casper-node.sock&
+$SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z -t 8 $HOME/.casperlabs/.casper-node.sock&
 
 # init node
-nodef init testnode $1 --chain-id testnet
+nodef init node tendermint --chain-id testnet
 
 sed -i "s/prometheus = false/prometheus = true/g" ~/.nodef/config/config.toml
 
@@ -65,7 +65,7 @@ do
 done
 
 nodef add-genesis-account $(clif keys show node -a) 100000000stake
-nodef add-el-genesis-account node "100000000000000000000000000000000000000" "1000000000000000000"
+nodef add-el-genesis-account node "2700000000000000000000000000" "1000000000000000000"
 
 # add genesis node
 nodef load-chainspec $HOME/.nodef/config/manifest.toml
