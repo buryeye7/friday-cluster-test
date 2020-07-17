@@ -36,7 +36,7 @@ wait_lb_ready() {
 }
 
 PW="12345678"
-AMOUNT=1000000000000000
+AMOUNT=10000000
 FARE=1
 COUCHDB="http://admin:admin@$(./get-public-ip.sh couchdb):30598"
 HDAC_SEED=$(kubectl get pods | grep hdac-seed | awk -F' ' '{print $1}')

@@ -1,29 +1,32 @@
 #!/bin/bash
 
-if [ $# == 0 ];then
-    echo "Please input param, tendermint or friday"
-    exit 0
-fi
+#if [ $# == 0 ]; then
+#	echo "Please input node name"
+#	exit 0 
+#fi
 
-SRC="$GOPATH/src/friday"
-rm -rf $HOME/.nodef/config
-rm -rf $HOME/.nodef/data
-rm -rf $HOME/.clif
 
-ps -ef | grep grpc | while read line
-do
-    if [[ $line == *"CasperLabs"* ]];then
-        target=$(echo $line |  awk -F' ' '{print $2}')
-        kill -9 $target
-    fi
+SRC="$HOME/go/src/github.com/hdac-io/friday"
+rm -rf ~/.nodef/config
+rm -rf ~/.nodef/data
+rm -rf ~/.clif
+
+tmp=$(ps -ef | grep grpc)
+echo $tmp | while read line 
+do 
+	if [[ $line == *"CasperLabs"* ]];then
+		target=$(echo $line |  awk -F' ' '{print $2}')
+		kill -9 $target
+	fi
 done
 
-ps -ef | grep nodef | while read line
-do
-    if [[ $line == *"nodef"* ]];then
-        target=$(echo $line |  awk -F' ' '{print $2}')
-        kill -9 $target
-    fi
+tmp=$(ps -ef | grep nodef)
+echo $tmp | while read line 
+do 
+	if [[ $line == *"nodef"* ]];then
+		target=$(echo $line |  awk -F' ' '{print $2}')
+		kill -9 $target
+	fi
 done
 
 # run execution engine grpc server
@@ -45,9 +48,9 @@ expect -c "
 set timeout 3
 spawn clif keys add node
 expect "disk:"
-send \"$PW\\r\"
+	send \"$PW\\r\"
 expect "passphrase:"
-send \"$PW\\r\"
+	send \"$PW\\r\"
 expect eof
 "
 
@@ -64,11 +67,12 @@ do
         "
 done
 
+
 nodef add-genesis-account $(clif keys show node -a) 100000000stake
 nodef add-el-genesis-account node "2700000000000000000000000000" "1000000000000000000"
 
 # add genesis node
-nodef load-chainspec $HOME/.nodef/config/manifest.toml
+nodef load-chainspec ~/.nodef/config/manifest.toml
 
 # apply default clif configure
 clif config chain-id testnet
@@ -79,14 +83,15 @@ clif config trust-node true
 # prepare genesis status
 expect -c "
 set timeout 3
-spawn nodef gentx --name node
+spawn nodef gentx --name node 
 expect "\'node\':"
-    send \"$PW\\r\"
+	send \"$PW\\r\"
 expect eof
 "
 
 nodef collect-gentxs
 nodef validate-genesis
 
-#cat $HOME/.nodef/config/genesis.json | jq .app_state.genutil.gentxs[0].value.memo > address.txt
-#nodef start > nodef.txt
+cp ~/.nodef/config/genesis.json ~/git/friday-test/settings
+cp ~/.nodef/config/manifest.toml ~/git/friday-test/settings
+cat  ~/.nodef/config/genesis.json | jq .app_state.genutil.gentxs[0].value.memo > ~/git/friday-test/settings/seed-address.txt

@@ -9,4 +9,4 @@ do
     param2=$(echo $line | awk -F' ' '{print $2}')
     ./transfer-to-interval.py $param1 $param2 > transfer-to-log$i.txt  
     i=$((i + 1))
-done
+done < test-info.txt
