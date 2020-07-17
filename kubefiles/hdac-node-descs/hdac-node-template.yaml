@@ -47,6 +47,11 @@ spec:
   selector:
     app: hdac-node{NO}
   ports:
-    - protocol: TCP
+    - name: clif-rest
+      protocol: TCP
       port: 1317
       targetPort: 1317
+    - name: profiling
+      protocol: TCP
+      port: 6060
+      targetPort: 6060

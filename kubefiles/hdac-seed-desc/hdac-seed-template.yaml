@@ -2,15 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hdac-seed
+  labels:
+    app: hdac-seed
 spec:
   selector:
     matchLabels:
-      run: hdac-seed
+      app: hdac-seed
   replicas: 1
   template:
     metadata:
       labels:
-        run: hdac-seed
+        app: hdac-seed
     spec:
       containers:
         - name: hdac-seed
@@ -37,3 +39,23 @@ spec:
               containerPort: 26660
               protocol: TCP
       nodeName: {NODE_NAME} 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdac-seed
+spec:
+  type: LoadBalancer
+  selector:
+    app: hdac-seed
+  ports:
+    - name: clif-rest
+      protocol: TCP
+      port: 1317
+      targetPort: 1317
+    - name: profiling
+      protocol: TCP
+      port: 6060
+      targetPort: 6060
+

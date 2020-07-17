@@ -25,5 +25,6 @@ EXPOSE 27017/tcp
 EXPOSE 1317/tcp
 EXPOSE 9090/tcp
 EXPOSE 3000/tcp
+EXPOSE 6060/tcp
 
 ENTRYPOINT ["./scripts/start-seed.sh"]

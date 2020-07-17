@@ -85,6 +85,7 @@ wait_lb_ready() {
 
 
 #create namespace
+kubectl delete ns fct
 kubectl create -f setup/fct-namespace.yaml
 kubectl config set-context --current --namespace=fct
 kubectl config get-contexts

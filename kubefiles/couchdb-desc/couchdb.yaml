@@ -24,7 +24,7 @@ spec:
           value: admin
         ports:
           - containerPort: 5984
-      nodeName: ip-172-20-34-95.ap-northeast-2.compute.internal
+      nodeName: ip-172-20-36-171.ap-northeast-2.compute.internal
 ---          
 apiVersion: v1
 kind: Service

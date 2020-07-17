@@ -133,18 +133,26 @@ do
     fi
 done < /tmp/svcs.txt
 
+rm -rf diffs/*
 rm -rf transfer-to-log*
 rm test-info-after-mempool-full.txt
 touch test-info-after-mempool-full.txt
+rm test-info.txt
+touch test-info.txt
+
 ADDRESS_CNT=$((i - 1))
 for i in $(seq 0 $ADDRESS_CNT)
 do
     j=$((i+1))
-    #mod=$((j%3))
-    if [ $j -lt 7 ];then
-        echo ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} >> test-info-after-mempool-full.txt
+    mod=$((j%3))
+    if [ $mod -eq 0 ];then
         continue
     fi
-    echo ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} > transfer-to-log$j.txt
-    ./transfer-to.py ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} >> transfer-to-log$j.txt &
+    echo ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} >> test-info.txt
+    #if [ $j -lt 7 ];then
+    #    echo ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} >> test-info.txt
+    #    continue
+    #fi
+    #echo ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} > transfer-to-log$j.txt
+    #./transfer-to.py ${NODE_ADDRESSES[$i]} ${PRIV_KEYS[$i]} >> transfer-to-log$j.txt &
 done
