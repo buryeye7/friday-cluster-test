@@ -39,14 +39,14 @@ waiting_single() {
 waiting_multi() {
     while true
     do
-        kubectl get pods > /tmp/pods.txt
+        kubectl get pods > ../tmp/pods.txt
         cnt=0
         while read line
         do
             if [[ "${line}" == *"$1"*"Running"* ]];then
                 cnt=$((cnt + 1))
             fi
-        done < /tmp/pods.txt
+        done < ../tmp/pods.txt
         if [[ $cnt == $2 ]];then
             break
         fi
@@ -66,7 +66,7 @@ waiting_ready() {
 wait_lb_ready() {
     while true
     do
-        kubectl get svc  > /tmp/svcs.txt
+        kubectl get svc  > ../tmp/svcs.txt
         pending_flag=0
         while read line
         do
@@ -75,7 +75,7 @@ wait_lb_ready() {
                 pending_flag=1
                 break
             fi
-        done < /tmp/svcs.txt
+        done < ../tmp/svcs.txt
         if [ $pending_flag -eq 0 ];then
             break
         fi
@@ -95,9 +95,9 @@ for i in $(seq 1 $FILE_NO)
 do
     kubectl delete -f ./hdac-node-descs/hdac-node$i.yaml
 done
-cp ./hdac-node-descs/hdac-node-template.yaml /tmp
+cp ./hdac-node-descs/hdac-node-template.yaml ../tmp
 rm -rf ./hdac-node-descs/*
-cp /tmp/hdac-node-template.yaml ./hdac-node-descs
+cp ../tmp/hdac-node-template.yaml ./hdac-node-descs
 
 #Grafana, Prometheus, CouchDB, hdac seed
 kubectl delete -f ./couchdb-desc/couchdb.yaml
@@ -108,7 +108,7 @@ kubectl delete -f ./hdac-seed-desc/hdac-seed.yaml
 
 NAME_ARRAY=()
 i=0
-kubectl get nodes > nodes.txt
+kubectl get nodes > ../tmp/nodes.txt
 while read line
 do
     if [[ $line == *"NAME"* ]] || [[ $line == *"master"* ]];then
@@ -116,7 +116,7 @@ do
     fi
     NAME_ARRAY[$i]=$(echo $line | awk -F' ' '{print $1}')
     i=$((i + 1))
-done < nodes.txt
+done < ../tmp/nodes.txt
 KUBE_NODE_NO=$i
 
 INDEX=0
