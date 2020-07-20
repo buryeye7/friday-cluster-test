@@ -127,7 +127,7 @@ max_subscriptions_per_client = 5
 timeout_broadcast_tx_commit = "10s"
 
 # Maximum size of request body, in bytes
-max_body_bytes = 5242880
+max_body_bytes = 3145728
 
 # Maximum size of request header, in bytes
 max_header_bytes = 1048576
@@ -230,7 +230,7 @@ cache_size = 10000
 
 # Maximum size of a single transaction.
 # NOTE: the max size of a tx transmitted over the network is {max_tx_bytes} + {amino overhead}.
-max_tx_bytes = 5242880
+max_tx_bytes = 3145728
 
 ##### fast sync configuration options #####
 [fastsync]
@@ -258,8 +258,6 @@ timeout_prevote_delta = "500ms"
 timeout_precommit = "1s"
 timeout_precommit_delta = "500ms"
 timeout_commit = "5s"
-timeout_previous_failure = "2s"
-timeout_previous_failure_delta = "500ms"
 
 # Make progress as soon as we have all the precommits (as if TimeoutCommit = 0)
 skip_timeout_commit = false
