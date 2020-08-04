@@ -20,7 +20,7 @@ print("host " + host)
 print("privkey " + privkey)
 
 test_number = 3600*24
-interval = 0
+interval = 1
 def function(sequence):
     global interval, test_number
     if sequence == test_number:
@@ -45,7 +45,7 @@ def function(sequence):
         print("exception:",str(e))
         #logging.exception("message")
         #traceback.print_exc()
-        threading.Timer(interval, function, [sequence + 1]).start()
+        threading.Timer(interval, function, [sequence]).start()
 
 function(0)
 #for i in range(10000):
