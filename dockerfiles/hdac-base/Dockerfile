@@ -17,6 +17,7 @@ RUN yum -y install expect
 RUN yum -y install vim 
 RUN yum -y install telnet
 RUN yum -y install net-tools 
+RUN yum -y install python3
 
 WORKDIR $GOPATH/src
 RUN git clone https://github.com/hdac-io/friday
