@@ -36,16 +36,22 @@ wait_lb_ready() {
 }
 
 PW="12345678"
-AMOUNT=10000000
 FARE=1
 COUCHDB="http://admin:admin@$(./get-public-ip.sh couchdb):30598"
 HDAC_SEED=$(kubectl get pods | grep hdac-seed | awk -F' ' '{print $1}')
-
 COUNT=$(curl $COUCHDB/seed-wallet-info/_all_docs 2>/dev/null | jq '.rows | length')
 COUNT=$((COUNT - 1))
+
+
+AMOUNT=100000
+WALLET_INFO=[]
 for i in $(seq 0 $COUNT)
 do
     wallet_address=$(curl $COUCHDB/seed-wallet-info/_all_docs 2>/dev/null | jq .rows[$i].key | sed "s/\"//g")
+    wallet_alias=$(curl $COUCHDB/seed-wallet-info/$wallet_address 2>/dev/null | jq .wallet_alias | sed "s/\"//g")
+    wallet_info="$wallet_address:$wallet_alias"
+    echo "wallet_info" $wallet_info
+    WALLET_INFO[$i]=$wallet_info
     expect -c "
     set timeout 3
     spawn kubectl exec $HDAC_SEED -it --container hdac-seed -- clif hdac transfer-to $wallet_address $AMOUNT $FARE --from node
@@ -57,6 +63,8 @@ do
     "
     sleep $INTERVAL
 done
+
+echo ${WALLET_INFO[@]}
 
 COUNT=$(curl $COUCHDB/wallet-address/_all_docs 2>/dev/null | jq '.rows | length')
 COUNT=$(($COUNT - 1))
@@ -76,6 +84,15 @@ do
         check_sync
     fi
     CNT=$((CNT + 1))
+    wallet_address=""
+    for wi in ${WALLET_INFO[@]}
+    do
+        if [[ $wi == *"$wallet_alias"* ]]; then
+            echo "wallet_info:" $wi
+            wallet_address=$(echo $wi | awk -F':' '{print $1}')
+            break
+        fi
+    done
     expect -c "
     set timeout 3
     spawn kubectl exec $HDAC_SEED -it --container hdac-seed -- clif hdac create-validator 1 --from $wallet_alias --pubkey $node_pubkey --moniker solution$i --chain-id testnet
@@ -96,8 +113,19 @@ do
     expect eof
     "
     sleep 10
+    expect -c "
+    set timeout 3
+    spawn kubectl exec $HDAC_SEED -it --container hdac-seed -- clif hdac delegate $wallet_address --from $wallet_alias 1 0.01 --chain-id testnet
+    expect "N]:"
+        send \"y\\r\"
+    expect "\'$wallet_alias\':"
+        send \"$PW\\r\"
+    expect eof
+    "
+    sleep 10
 done
 
+AMOUNT=100000000
 COUNT=$(curl $COUCHDB/input-address/_all_docs 2>/dev/null | jq '.rows | length')
 COUNT=$((COUNT - 1))
 PRIV_KEYS=()
