@@ -62,6 +62,7 @@ fi
 SEED=$(curl $COUCHDB/seed-info/seed-info | jq .target)
 sed -i "s/seeds = \"\"/seeds = $SEED/g" $HOME/.nodef/config/config.toml
 sed -i "s/prometheus = false/prometheus = true/g" $HOME/.nodef/config/config.toml
+sed -i 's/log_level = "main:info,state:info,\*:error"/log_level = "main:info,state:info,\*:error,consensus:info"/g' ~/.nodef/config/config.toml
 sed -i "s/prof_laddr = \"localhost:6060\"/prof_laddr = \"0.0.0.0:6060\"/g" $HOME/.nodef/config/config.toml
 
 WALLET_ADDRESS=$(clif keys show node -a)
