@@ -35,8 +35,6 @@ $SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z
 # init node
 nodef init node tendermint --chain-id testnet
 
-sed -i "s/prometheus = false/prometheus = true/g" ~/.nodef/config/config.toml
-
 # copy execution engine chain configurations
 cp $SRC/x/executionlayer/resources/manifest.toml ~/.nodef/config
 
@@ -95,6 +93,9 @@ expect eof
 
 nodef collect-gentxs
 nodef validate-genesis
+
+cp -rf ~/.nodef/* /home/centos/git/friday-cluster-test/instances/config/node-config/nodef-config/
+cp -rf ~/.clif/* /home/centos/git/friday-cluster-test/instances/config/node-config/clif-config/
 
 #cp ~/.nodef/config/genesis.json ~/git/friday-test/settings
 #cp ~/.nodef/config/manifest.toml ~/git/friday-test/settings
