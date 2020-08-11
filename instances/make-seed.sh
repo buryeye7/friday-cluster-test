@@ -92,6 +92,6 @@ expect eof
 nodef collect-gentxs
 nodef validate-genesis
 
-cp ~/.nodef/config/genesis.json ~/git/friday-test/settings
-cp ~/.nodef/config/manifest.toml ~/git/friday-test/settings
-cat  ~/.nodef/config/genesis.json | jq .app_state.genutil.gentxs[0].value.memo > ~/git/friday-test/settings/seed-address.txt
+#cp ~/.nodef/config/genesis.json ~/git/friday-test/settings
+#cp ~/.nodef/config/manifest.toml ~/git/friday-test/settings
+#cat  ~/.nodef/config/genesis.json | jq .app_state.genutil.gentxs[0].value.memo > ~/git/friday-test/settings/seed-address.txt
