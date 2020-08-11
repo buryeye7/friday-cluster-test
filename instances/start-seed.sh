@@ -112,6 +112,9 @@ expect eof
 nodef collect-gentxs
 nodef validate-genesis
 
+rm -rf /home/centos/git/friday-cluster-test/instances/config/node-config/nodef-config/*
+rm -rf /home/centos/git/friday-cluster-test/instances/config/node-config/clif-config/*
+
 cp -rf ~/.nodef/* /home/centos/git/friday-cluster-test/instances/config/node-config/nodef-config/
 cp -rf ~/.clif/* /home/centos/git/friday-cluster-test/instances/config/node-config/clif-config/
 
