@@ -33,7 +33,7 @@ db_backend = "goleveldb"
 db_dir = "data"
 
 # Output level for logging, including package level options
-log_level = "main:info,state:info,*:error"
+log_level = "main:info,state:info,*:error,consensus:info"
 
 # Output format: 'plain' (colored text) or 'json'
 log_format = "plain"
@@ -60,7 +60,7 @@ node_key_file = "config/node_key.json"
 abci = "socket"
 
 # TCP or UNIX socket address for the profiling server to listen on
-prof_laddr = "localhost:6060"
+prof_laddr = "0.0.0.0:6060"
 
 # If true, query the ABCI app on connecting to a new peer
 # so the app can decide if we should keep the connection or not
@@ -158,7 +158,7 @@ laddr = "tcp://0.0.0.0:26656"
 external_address = ""
 
 # Comma separated list of seed nodes to connect to
-seeds = ""
+seeds = 
 
 # Comma separated list of nodes to keep persistent connections to
 persistent_peers = ""
