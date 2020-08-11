@@ -1,5 +1,5 @@
 {
-  "genesis_time": "2020-08-11T05:33:15.17292941Z",
+  "genesis_time": "2020-08-11T06:20:12.502596744Z",
   "chain_id": "testnet",
   "consensus_module": "tendermint",
   "consensus_params": {
@@ -20,85 +20,6 @@
   },
   "app_hash": "",
   "app_state": {
-    "genutil": {
-      "gentxs": [
-        {
-          "type": "friday/StdTx",
-          "value": {
-            "msg": [
-              {
-                "type": "friday/MsgCreateValidator",
-                "value": {
-                  "description": {
-                    "moniker": "node",
-                    "identity": "",
-                    "website": "",
-                    "details": ""
-                  },
-                  "commission": {
-                    "rate": "0.100000000000000000",
-                    "max_rate": "0.200000000000000000",
-                    "max_change_rate": "0.010000000000000000"
-                  },
-                  "min_self_delegation": "1",
-                  "delegator_address": "friday1uhrws393l6tt2jmq4e3shhhfsaw4w527kgr5chxfszdrzqd9xzwsu0ggqn",
-                  "validator_address": "fridayvaloper1uhrws393l6tt2jmq4e3shhhfsaw4w527kgr5chxfszdrzqd9xzwsw0h0r4",
-                  "pubkey": "fridayvalconspub16jrl8jvqqy645smz2auh5k3kxfk8wd2zfpy5vdrz2uekujt3dpg4gup4f94hgd30tpkry5ejd5ch5nmxwdt42stdwp3rj6zdgdt4qemvdamj7vzjfp9y24pcfym9vs2gvd6kunt40995w4rhv4v4gaftveaxsenzga5xskt9vfurjs6ev3gyvenefppxgumsvdfrjvzyfye9v4239drkk5c5ngyfq",
-                  "value": {
-                    "denom": "stake",
-                    "amount": "100000000"
-                  }
-                }
-              },
-              {
-                "type": "executionengine/CreateValidator",
-                "value": {
-                  "contract_address": "system:create_validator",
-                  "validator_address": "friday1uhrws393l6tt2jmq4e3shhhfsaw4w527kgr5chxfszdrzqd9xzwsu0ggqn",
-                  "cons_pubkey": "fridayvalconspub16jrl8jvqqy645smz2auh5k3kxfk8wd2zfpy5vdrz2uekujt3dpg4gup4f94hgd30tpkry5ejd5ch5nmxwdt42stdwp3rj6zdgdt4qemvdamj7vzjfp9y24pcfym9vs2gvd6kunt40995w4rhv4v4gaftveaxsenzga5xskt9vfurjs6ev3gyvenefppxgumsvdfrjvzyfye9v4239drkk5c5ngyfq",
-                  "description": {
-                    "moniker": "node",
-                    "identity": "",
-                    "website": "",
-                    "details": ""
-                  },
-                  "fee": "10000000000000000"
-                }
-              }
-            ],
-            "fee": {
-              "amount": [],
-              "gas": "100000000"
-            },
-            "signatures": [
-              {
-                "pub_key": {
-                  "type": "tendermint/PubKeySecp256k1",
-                  "value": "A+e5PPAlbC20LPFgswzEp3F3ueuS/zRhs1A74TPpHm4p"
-                },
-                "signature": "Tsye13JPH7wAk4dGyNmQdf988AJ8WdZDKpzmiL4gdNd8xrlDZ36ISIOyL15P8F1JTfbs54LJDHKVvHNQ8OjDjw=="
-              }
-            ],
-            "memo": "2095afdb6ca60f9cd1292b6332186842f45756dd834e1349347d7d46308dbf8a@172.20.50.225:26656"
-          }
-        }
-      ]
-    },
-    "slashing": {
-      "params": {
-        "max_evidence_age": "120000000000",
-        "signed_blocks_window": "100",
-        "min_signed_per_window": "0.500000000000000000",
-        "downtime_jail_duration": "600000000000",
-        "slash_fraction_double_sign": "0.050000000000000000",
-        "slash_fraction_downtime": "0.010000000000000000"
-      },
-      "signing_infos": {},
-      "missed_blocks": {}
-    },
-    "bank": {
-      "send_enabled": true
-    },
     "gov": {
       "starting_proposal_id": "1",
       "deposits": null,
@@ -122,6 +43,23 @@
         "veto": "0.334000000000000000"
       }
     },
+    "mint": {
+      "minter": {
+        "inflation": "0.130000000000000000",
+        "annual_provisions": "0.000000000000000000"
+      },
+      "params": {
+        "mint_denom": "stake",
+        "inflation_rate_change": "0.130000000000000000",
+        "inflation_max": "0.200000000000000000",
+        "inflation_min": "0.070000000000000000",
+        "goal_bonded": "0.670000000000000000",
+        "blocks_per_year": "6311520"
+      }
+    },
+    "nickname": {
+      "accountarr": []
+    },
     "params": null,
     "distribution": {
       "fee_pool": {
@@ -140,33 +78,12 @@
       "delegator_starting_infos": [],
       "validator_slash_events": []
     },
-    "auth": {
-      "params": {
-        "max_memo_characters": "256",
-        "tx_sig_limit": "7",
-        "tx_size_cost_per_byte": "10",
-        "sig_verify_cost_ed25519": "590",
-        "sig_verify_cost_secp256k1": "1000"
-      }
-    },
-    "staking": {
-      "params": {
-        "unbonding_time": "1814400000000000",
-        "max_validators": 100,
-        "max_entries": 7,
-        "bond_denom": "stake"
-      },
-      "last_total_power": "0",
-      "last_validator_powers": null,
-      "validators": null,
-      "delegations": null,
-      "unbonding_delegations": null,
-      "redelegations": null,
-      "exported": false
+    "bank": {
+      "send_enabled": true
     },
     "accounts": [
       {
-        "address": "friday1uhrws393l6tt2jmq4e3shhhfsaw4w527kgr5chxfszdrzqd9xzwsu0ggqn",
+        "address": "friday157fs9ds76765qj5gtdct8t90m22hf3szajqne23gg8uvtclk5qlqumalf8",
         "coins": [
           {
             "denom": "stake",
@@ -186,12 +103,6 @@
         ]
       }
     ],
-    "supply": {
-      "supply": []
-    },
-    "nickname": {
-      "accountarr": []
-    },
     "contract": {
       "genesis_conf": {
         "genesis": {
@@ -231,7 +142,7 @@
       },
       "accounts": [
         {
-          "address": "friday1uhrws393l6tt2jmq4e3shhhfsaw4w527kgr5chxfszdrzqd9xzwsu0ggqn",
+          "address": "friday157fs9ds76765qj5gtdct8t90m22hf3szajqne23gg8uvtclk5qlqumalf8",
           "initial_balance": "2700000000000000000000000000",
           "initial_bonded_amount": "1000000000000000000"
         }
@@ -239,22 +150,111 @@
       "chain_name": "testnet",
       "validators": null,
       "state_infos": [
-        "d_e5c6e844b1fe96b54b60ae630bdee9875d57515eb2074c5cc9809a3101a5309d_e5c6e844b1fe96b54b60ae630bdee9875d57515eb2074c5cc9809a3101a5309d_1000000000000000000"
+        "d_a79302b61ed7b5404a885b70b3acafda9574c602ec813caa2841f8c5e3f6a03e_a79302b61ed7b5404a885b70b3acafda9574c602ec813caa2841f8c5e3f6a03e_1000000000000000000"
       ]
     },
-    "mint": {
-      "minter": {
-        "inflation": "0.130000000000000000",
-        "annual_provisions": "0.000000000000000000"
-      },
+    "slashing": {
       "params": {
-        "mint_denom": "stake",
-        "inflation_rate_change": "0.130000000000000000",
-        "inflation_max": "0.200000000000000000",
-        "inflation_min": "0.070000000000000000",
-        "goal_bonded": "0.670000000000000000",
-        "blocks_per_year": "6311520"
+        "max_evidence_age": "120000000000",
+        "signed_blocks_window": "100",
+        "min_signed_per_window": "0.500000000000000000",
+        "downtime_jail_duration": "600000000000",
+        "slash_fraction_double_sign": "0.050000000000000000",
+        "slash_fraction_downtime": "0.010000000000000000"
+      },
+      "signing_infos": {},
+      "missed_blocks": {}
+    },
+    "auth": {
+      "params": {
+        "max_memo_characters": "256",
+        "tx_sig_limit": "7",
+        "tx_size_cost_per_byte": "10",
+        "sig_verify_cost_ed25519": "590",
+        "sig_verify_cost_secp256k1": "1000"
       }
+    },
+    "supply": {
+      "supply": []
+    },
+    "staking": {
+      "params": {
+        "unbonding_time": "1814400000000000",
+        "max_validators": 100,
+        "max_entries": 7,
+        "bond_denom": "stake"
+      },
+      "last_total_power": "0",
+      "last_validator_powers": null,
+      "validators": null,
+      "delegations": null,
+      "unbonding_delegations": null,
+      "redelegations": null,
+      "exported": false
+    },
+    "genutil": {
+      "gentxs": [
+        {
+          "type": "friday/StdTx",
+          "value": {
+            "msg": [
+              {
+                "type": "friday/MsgCreateValidator",
+                "value": {
+                  "description": {
+                    "moniker": "node",
+                    "identity": "",
+                    "website": "",
+                    "details": ""
+                  },
+                  "commission": {
+                    "rate": "0.100000000000000000",
+                    "max_rate": "0.200000000000000000",
+                    "max_change_rate": "0.010000000000000000"
+                  },
+                  "min_self_delegation": "1",
+                  "delegator_address": "friday157fs9ds76765qj5gtdct8t90m22hf3szajqne23gg8uvtclk5qlqumalf8",
+                  "validator_address": "fridayvaloper157fs9ds76765qj5gtdct8t90m22hf3szajqne23gg8uvtclk5qlqwmzc2p",
+                  "pubkey": "fridayvalconspub16jrl8jvqq99x6nre09y8v720dpxy65j2tfh9v7t22ec8s32ktphnqu2zvfz5uw20f5cx7330vu6xxkn99uerz4r3wpyhgu6nfpyy2d2c2yek5k2xgdfnsarpdat8g330gdc8zc2fge3xxmryvdarvatevefhysf4d5exwjzjx4qkyujy2e3xc3nv2qm9s36gx4ukvnph0pznjkf39ank6nst6a20p",
+                  "value": {
+                    "denom": "stake",
+                    "amount": "100000000"
+                  }
+                }
+              },
+              {
+                "type": "executionengine/CreateValidator",
+                "value": {
+                  "contract_address": "system:create_validator",
+                  "validator_address": "friday157fs9ds76765qj5gtdct8t90m22hf3szajqne23gg8uvtclk5qlqumalf8",
+                  "cons_pubkey": "fridayvalconspub16jrl8jvqq99x6nre09y8v720dpxy65j2tfh9v7t22ec8s32ktphnqu2zvfz5uw20f5cx7330vu6xxkn99uerz4r3wpyhgu6nfpyy2d2c2yek5k2xgdfnsarpdat8g330gdc8zc2fge3xxmryvdarvatevefhysf4d5exwjzjx4qkyujy2e3xc3nv2qm9s36gx4ukvnph0pznjkf39ank6nst6a20p",
+                  "description": {
+                    "moniker": "node",
+                    "identity": "",
+                    "website": "",
+                    "details": ""
+                  },
+                  "fee": "10000000000000000"
+                }
+              }
+            ],
+            "fee": {
+              "amount": [],
+              "gas": "100000000"
+            },
+            "signatures": [
+              {
+                "pub_key": {
+                  "type": "tendermint/PubKeySecp256k1",
+                  "value": "AxJCfRld+MIGD2TvCnPl77fELTA5hOGbifZEzFhIIlyU"
+                },
+                "signature": "xFK4YR1MZsN2iiMHkp+Bnhr9s44C8dox/W17+JOvLS9heUUuYxiUlFknDeZ2FKEE2rvCt+lcacFVMYicT0EKcg=="
+              }
+            ],
+            "memo": "2cc389a9899c6f967928952f5c4a5e5bf507fca60ddaba4d9c10a1b79b34a1d8@172.20.50.225:26656"
+          }
+        }
+      ]
     }
   }
 }

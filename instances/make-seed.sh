@@ -80,6 +80,10 @@ clif config output json
 clif config indent true
 clif config trust-node true
 
+sed -i "s/prometheus = false/prometheus = true/g" $HOME/.nodef/config/config.toml
+sed -i 's/log_level = "main:info,state:info,\*:error"/log_level = "main:info,state:info,\*:error,consensus:info"/g' ~/.nodef/config/config.toml
+sed -i "s/prof_laddr = \"localhost:6060\"/prof_laddr = \"0.0.0.0:6060\"/g" $HOME/.nodef/config/config.toml
+
 # prepare genesis status
 expect -c "
 set timeout 3
