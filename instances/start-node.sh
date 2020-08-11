@@ -6,21 +6,38 @@ rm -rf $HOME/.nodef/config
 rm -rf $HOME/.nodef/data
 rm -rf $HOME/.clif
 
-ps -ef | grep grpc | while read line
+ps -ef | grep grpc > /tmp/dummy
 do
+    if [[ $line == *"CasperLabs"* ]];then
+        continue
+    fi
     if [[ $line == *"CasperLabs"* ]];then
         target=$(echo $line |  awk -F' ' '{print $2}')
         kill -9 $target
     fi
-done
+done < /tmp/dummy
 
 ps -ef | grep nodef | while read line
 do
     if [[ $line == *"nodef"* ]];then
+        continue
+    fi
+    if [[ $line == *"nodef"* ]];then
         target=$(echo $line |  awk -F' ' '{print $2}')
         kill -9 $target
     fi
-done
+done < /tmp/dummy
+
+ps -ef | grep clif > /tmp/dummy
+do
+    if [[ $line == *"clif"* ]];then
+        continue
+    fi
+    if [[ $line == *"clif"* ]];then
+        target=$(echo $line |  awk -F' ' '{print $2}')
+        kill -9 $target
+    fi
+done < /tmp/dummy
 
 # run execution engine grpc server
 $SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z -t 8 $HOME/.casperlabs/.casper-node.sock&

@@ -11,26 +11,44 @@ rm -rf ~/.nodef/config
 rm -rf ~/.nodef/data
 rm -rf ~/.clif
 
-tmp=$(ps -ef | grep grpc)
-echo $tmp | while read line 
+ps -ef | grep grpc > /tmp/dummy
+while read line 
 do 
+	if [[ $line == *"grep"* ]];then
+		continue
+	fi
 	if [[ $line == *"CasperLabs"* ]];then
 		target=$(echo $line |  awk -F' ' '{print $2}')
 		kill -9 $target
 	fi
-done
+done < /tmp/dummy
 
-tmp=$(ps -ef | grep nodef)
-echo $tmp | while read line 
+ps -ef | grep nodef > /tmp/dummy
+while read line 
 do 
+	if [[ $line == *"grep"* ]];then
+		continue
+	fi
 	if [[ $line == *"nodef"* ]];then
 		target=$(echo $line |  awk -F' ' '{print $2}')
 		kill -9 $target
 	fi
-done
+done < /tmp/dummy
+
+ps -ef | grep clif > /tmp/dummy
+while read line 
+do 
+	if [[ $line == *"grep"* ]];then
+		continue
+	fi
+	if [[ $line == *"clif"* ]];then
+		target=$(echo $line |  awk -F' ' '{print $2}')
+		kill -9 $target
+	fi
+done < /tmp/dummy
 
 # run execution engine grpc server
-$SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z -t 8 $HOME/.casperlabs/.casper-node.sock&
+$SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z -t 8 $HOME/.casperlabs/.casper-node.sock > /tmp/casper.txt &
 
 # init node
 nodef init node tendermint --chain-id testnet
@@ -96,6 +114,9 @@ nodef validate-genesis
 
 cp -rf ~/.nodef/* /home/centos/git/friday-cluster-test/instances/config/node-config/nodef-config/
 cp -rf ~/.clif/* /home/centos/git/friday-cluster-test/instances/config/node-config/clif-config/
+
+clif rest-server --laddr tcp://0.0.0.0:1317 2>&1 > /tmp/clif.txt &
+nodef start > /tmp/nodef.txt 2>/dev/null &
 
 #cp ~/.nodef/config/genesis.json ~/git/friday-test/settings
 #cp ~/.nodef/config/manifest.toml ~/git/friday-test/settings
