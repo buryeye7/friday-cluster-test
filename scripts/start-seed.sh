@@ -45,4 +45,4 @@ do
 done
 
 clif rest-server --laddr tcp://0.0.0.0:1317 > clif.txt 2>&1 &
-nodef start 2>/dev/null
+nodef start > /tmp/nodef.txt 2>/dev/null

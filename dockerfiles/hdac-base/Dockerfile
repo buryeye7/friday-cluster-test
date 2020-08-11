@@ -17,11 +17,12 @@ RUN yum -y install expect
 RUN yum -y install vim 
 RUN yum -y install telnet
 RUN yum -y install net-tools 
+RUN yum -y install python3
 
 WORKDIR $GOPATH/src
 RUN git clone https://github.com/hdac-io/friday
 WORKDIR $GOPATH/src/friday
-#RUN git checkout refactor/execute
+RUN git checkout refactor/execute
 #RUN git checkout v0.11.0
 #RUN git checkout v0.9.0
 RUN npm install -g assemblyscript@0.9.1
