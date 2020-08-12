@@ -1,14 +1,14 @@
 #!/bin/bash
 
-
 SRC="$HOME/go/src/github.com/hdac-io/friday"
 rm -rf $HOME/.nodef/config
 rm -rf $HOME/.nodef/data
 rm -rf $HOME/.clif
 
 ps -ef | grep grpc > /tmp/dummy
+while read line
 do
-    if [[ $line == *"CasperLabs"* ]];then
+    if [[ $line == *"grep"* ]];then
         continue
     fi
     if [[ $line == *"CasperLabs"* ]];then
@@ -17,9 +17,10 @@ do
     fi
 done < /tmp/dummy
 
-ps -ef | grep nodef | while read line
+ps -ef | grep nodef > /tmp/dummy
+while read line
 do
-    if [[ $line == *"nodef"* ]];then
+    if [[ $line == *"grep"* ]];then
         continue
     fi
     if [[ $line == *"nodef"* ]];then
@@ -29,8 +30,9 @@ do
 done < /tmp/dummy
 
 ps -ef | grep clif > /tmp/dummy
+while read line
 do
-    if [[ $line == *"clif"* ]];then
+    if [[ $line == *"grep"* ]];then
         continue
     fi
     if [[ $line == *"clif"* ]];then
@@ -40,7 +42,7 @@ do
 done < /tmp/dummy
 
 # run execution engine grpc server
-$SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z -t 8 $HOME/.casperlabs/.casper-node.sock > /tmp/casper.txt&
+$SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z -t 8 $HOME/.casperlabs/.casper-node.sock > /tmp/casper.txt &
 
 nodef init testnode tendermint --chain-id testnet
 
