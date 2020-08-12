@@ -8,7 +8,6 @@ while read line
 do
     address=$line
     echo $address
-    continue
     expect -c "
     set timeout 3
     spawn clif hdac transfer-to $address $AMOUNT $FARE --from node
