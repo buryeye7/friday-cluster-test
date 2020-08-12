@@ -53,6 +53,12 @@ $SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z
 # init node
 nodef init node tendermint --chain-id testnet
 
+NODE_ID=$(nodef tendermint show-node-id)
+IP_ADDRESS=$(hostname -I)
+IP_ADDRESS=$(echo $IP_ADDRESS)
+echo "$NODE_ID@$IP_ADDRESS:26656" > seed-info.txt
+
+
 # copy execution engine chain configurations
 cp $SRC/x/executionlayer/resources/manifest.toml ~/.nodef/config
 
