@@ -40,7 +40,7 @@ do
 done < /tmp/dummy
 
 # run execution engine grpc server
-$SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z -t 8 $HOME/.casperlabs/.casper-node.sock&
+$SRC/CasperLabs/execution-engine/target/release/casperlabs-engine-grpc-server -z -t 8 $HOME/.casperlabs/.casper-node.sock > /tmp/casper.txt&
 
 nodef init testnode tendermint --chain-id testnet
 
