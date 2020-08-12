@@ -69,7 +69,7 @@ cp -f $HOME/git/friday-cluster-test/instances/config/node-config/nodef-config/co
 cp -f $HOME/git/friday-cluster-test/instances/config/node-config/nodef-config/config/manifest.toml $HOME/.nodef/config
 
 #SEED=$(cat $HOME/.nodef/config/genesis.json | jq .app_state.genutil.gentxs[0].value.memo)
-SEED=$(cat seed-info.txt)
+SEED="\"$(cat seed-info.txt)\""
 sed -i "s/seeds = \"\"/seeds = $SEED/g" $HOME/.nodef/config/config.toml
 sed -i "s/prometheus = false/prometheus = true/g" $HOME/.nodef/config/config.toml
 sed -i 's/log_level = "main:info,state:info,\*:error"/log_level = "main:info,state:info,\*:error,consensus:info"/g' ~/.nodef/config/config.toml
