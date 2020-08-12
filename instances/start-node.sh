@@ -75,5 +75,5 @@ sed -i "s/prometheus = false/prometheus = true/g" $HOME/.nodef/config/config.tom
 sed -i 's/log_level = "main:info,state:info,\*:error"/log_level = "main:info,state:info,\*:error,consensus:info"/g' ~/.nodef/config/config.toml
 sed -i "s/prof_laddr = \"localhost:6060\"/prof_laddr = \"0.0.0.0:6060\"/g" $HOME/.nodef/config/config.toml
 
-clif rest-server --laddr tcp://0.0.0.0:1317 > clif.txt 2>&1 &
+clif rest-server --laddr tcp://0.0.0.0:1317 > /tmp/clif.txt 2>&1 &
 nodef start > /tmp/nodef.txt 2>/dev/null &
